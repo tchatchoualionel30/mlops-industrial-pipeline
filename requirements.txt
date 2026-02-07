@@ -1,8 +1,7 @@
 pandas
 scikit-learn
 mlflow>=2.0
-dvc
-dvc-s3  # Pour le stockage distant (DagsHub utilise le protocole S3)
-pytest  # Pour les tests unitaires
+pytest
 numpy
-dagshub # Pour l'authentification facile
+dagshub
+dvc[s3]
