@@ -1,0 +1,46 @@
+name: Industrial MLOps Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v3
+      - name: Installation Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Installation dépendances
+        run: |
+          pip install -r requirements.txt
+          pip install pytest flake8
+      - name: Linting
+        run: flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+      - name: Tests Unitaires
+        run: pytest tests/
+
+  train-and-register:
+    needs: test-code
+    runs-on: ubuntu-latest
+    env:
+      MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+      MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+      MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v3
+      - name: Installation Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Installation dépendances
+        run: pip install -r requirements.txt
+      - name: Entraînement et Logging MLflow
+        run: python src/train.py
