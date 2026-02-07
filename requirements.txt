@@ -1,0 +1,8 @@
+pandas
+scikit-learn
+mlflow>=2.0
+dvc
+dvc-s3  # Pour le stockage distant (DagsHub utilise le protocole S3)
+pytest  # Pour les tests unitaires
+numpy
+dagshub # Pour l'authentification facile
