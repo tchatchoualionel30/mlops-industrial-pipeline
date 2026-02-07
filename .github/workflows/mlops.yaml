@@ -44,3 +44,22 @@ jobs:
         run: pip install -r requirements.txt
       - name: Entraînement et Logging MLflow
         run: python src/train.py
+# JOB 3 : LIVRAISON (Build & Push Docker)
+  build-and-push-docker:
+    needs: train-and-register # "Attends que l'entraînement soit fini et réussi"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Connexion à Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Construction et Envoi de l'image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/wine-quality-model:latest
