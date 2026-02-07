@@ -61,8 +61,8 @@ Le projet repose sur une chaîne d'automatisation moderne :
 ├── .github/workflows
 │   └── mlops.yaml      # Le cerveau de l'automatisation (Instructions du Robot)
 ├── src
-│   ├── prepare.py      # Script de préparation/génération des données
-│   └── train.py        # Script d'entraînement et de logging MLflow
+│   ├
+│   └── train.py        # Script de préparation/génération des données, d'entraînement et de logging MLflow
 ├── tests
 │   └── test_logic.py   # Tests unitaires (Pytest)
 ├── Dockerfile          # La recette pour construire le conteneur
